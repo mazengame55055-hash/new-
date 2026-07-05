@@ -7,8 +7,8 @@ if (fs.existsSync(libavPath)) {
     let code = fs.readFileSync(libavPath, 'utf8');
     if (code.includes('const readFrame = pDebounce.promise') && !code.includes('let readFrame')) {
         code = code.replace(
-            'export async function demux(input) {',
-            'export async function demux(input) {\n    let readFrame;'
+            'async function demux(input, { format }) {',
+            'async function demux(input, { format }) {\n    let readFrame;'
         );
         code = code.replace('const readFrame = pDebounce.promise', 'readFrame = pDebounce.promise');
         fs.writeFileSync(libavPath, code);
