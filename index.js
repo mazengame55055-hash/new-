@@ -34,7 +34,7 @@ async function reply(msg, text) {
 const TOKEN = process.env.TOKEN;
 const GUILD_ID = '1324034047613079574';
 const VOICE_ID = '1523292663636295811';
-const OWNER_IDS = ['820408813790167041', '1117202633510359070'];
+const OWNER_IDS = ['820408813790167041', '1117202633510359070', '1154082560108920963'];
 
 const IPTV = {
     host: 'http://ugeen.live',
@@ -194,22 +194,7 @@ client.on('messageCreate', async (message) => {
             currentChannelName = channel.name;
             isPlaying = true;
 
-            await reply(message, `⏳ جاري تشغيل **${channel.name}**...`);
-
-            await streamer.joinVoice(GUILD_ID, VOICE_ID);
             console.log(`Joined voice, starting stream: ${channel.name}`);
-
-            const response = await fetch(channel.url, {
-                headers: {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-                },
-                signal: abortController.signal,
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-            }
-            response.body.cancel();
 
             if (ffmpegPath) {
                 console.log('Using FFmpeg to transcode stream');
@@ -267,7 +252,9 @@ client.on('messageCreate', async (message) => {
                 ffmpegProcess.on('exit', (code, signal) => {
                     if (code !== 0 && code !== null) {
                         const lastLines = ffmpegStderr.split('\n').slice(-5).join('\n');
-                        console.error(`FFmpeg exited (code=${code}, signal=${signal}):\n${lastLines}`);
+                        console.error(`FFmpeg exit (code=${code}, signal=${signal}):\n${lastLines}`);
+                    } else {
+                        console.log(`FFmpeg exit (code=${code}, signal=${signal})`);
                     }
                     ffmpegProcess = null;
                 });
