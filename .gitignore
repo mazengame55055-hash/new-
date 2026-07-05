@@ -1,0 +1,6 @@
+node_modules/
+channels.m3u
+channels.txt
+commands.txt
+patch.js
+gen_channels.js
