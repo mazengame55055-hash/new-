@@ -219,13 +219,19 @@ client.on('messageCreate', async (message) => {
                 }
 
                 ffmpegProcess = spawn(ffmpegPath, [
+                    '-headers', 'User-Agent: VLC/3.0.20 LibVLC/3.0.20\r\n',
+                    '-timeout', '30000000',
                     '-reconnect', '1',
                     '-reconnect_streamed', '1',
-                    '-reconnect_delay_max', '5',
-                    '-analyzeduration', '500000',
-                    '-probesize', '500000',
+                    '-reconnect_delay_max', '10',
+                    '-reconnect_at_eof', '1',
+                    '-reconnect_on_network_error', '1',
+                    '-analyzeduration', '2000000',
+                    '-probesize', '2000000',
                     '-thread_queue_size', '512',
                     '-i', channel.url,
+                    '-fflags', '+nobuffer+discardcorrupt',
+                    '-flags', '+low_delay',
                     '-c:v', 'libx264',
                     '-preset', 'ultrafast',
                     '-tune', 'zerolatency',
