@@ -304,6 +304,16 @@ client.on('messageCreate', async (message) => {
             await stopPlaying(message);
         }
 
+        if (message.content === '!txt') {
+            const channels = await fetchChannels();
+            if (!channels || Object.keys(channels).length === 0) return reply(message, '❌ لا توجد قنوات.');
+            const lines = Object.entries(channels).map(([num, ch]) => `${num}. ${ch.name}`);
+            const filePath = path.join(__dirname, 'channels.txt');
+            fs.writeFileSync(filePath, lines.join('\n'), 'utf8');
+            await message.channel.send({ files: [filePath] });
+            await reply(message, `✅ تم تصدير ${lines.length} قناة إلى channels.txt`);
+        }
+
         if (message.content === '!help') {
             const reply = [
                 '🤖 **الأوامر:**',
@@ -313,6 +323,7 @@ client.on('messageCreate', async (message) => {
                 '`!stop` - إيقاف البث',
                 '`!quality <lowend|low|medium|high>` - ضبط الجودة',
                 '`!status` - حالة البث',
+                '`!txt` - تصدير القنوات إلى ملف',
                 '`!help` - المساعدة',
             ].join('\n');
             await reply(message, reply);
