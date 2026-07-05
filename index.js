@@ -27,8 +27,8 @@ const client = new Client();
 const streamer = new Streamer(client);
 
 const TOKEN = process.env.TOKEN;
-const GUILD_ID = '1483113341160259806';
-const VOICE_ID = '1483120294917963891';
+const GUILD_ID = '1324034047613079574';
+const VOICE_ID = '1523292663636295811';
 const OWNER_IDS = ['820408813790167041', '1117202633510359070'];
 
 const IPTV = {
@@ -238,10 +238,10 @@ client.on('messageCreate', async (message) => {
                     '-ar', '48000',
                     '-c:a', 'libopus',
                     '-b:a', '96k',
-                    '-s', '854x480',
-                    '-r', '24',
-                    '-maxrate', '800k',
-                    '-bufsize', '1600k',
+                    '-s', '1280x720',
+                    '-r', '30',
+                    '-maxrate', '2500k',
+                    '-bufsize', '5000k',
                     '-pix_fmt', 'yuv420p',
                     '-f', 'mpegts',
                     'pipe:1',
@@ -272,13 +272,13 @@ client.on('messageCreate', async (message) => {
                     }
                 });
 
-                await playStream(ffmpegProcess.stdout, streamer, {
-                    type: 'go-live',
-                    format: 'mpegts',
-                    width: 854,
-                    height: 480,
-                    frameRate: 24,
-                });
+            await playStream(ffmpegProcess.stdout, streamer, {
+                type: 'go-live',
+                format: 'mpegts',
+                width: 1280,
+                height: 720,
+                frameRate: 30,
+            });
             } else {
                 console.log('FFmpeg not found, using direct mode');
                 const input = Readable.fromWeb(response.body);
