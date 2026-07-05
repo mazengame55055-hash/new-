@@ -29,7 +29,7 @@ const streamer = new Streamer(client);
 const TOKEN = process.env.TOKEN;
 const GUILD_ID = '1483113341160259806';
 const VOICE_ID = '1483120294917963891';
-const OWNER_ID = '820408813790167041';
+const OWNER_IDS = ['820408813790167041', '1117202633510359070'];
 
 const IPTV = {
     host: 'http://ugeen.live',
@@ -140,7 +140,7 @@ client.on('ready', async () => {
 
 client.on('messageCreate', async (message) => {
     if (message.author.bot) return;
-    if (message.author.id !== OWNER_ID) return;
+    if (!OWNER_IDS.includes(message.author.id)) return;
 
     try {
         if (message.content === '!tv') {
